@@ -9,6 +9,16 @@
       "appId": "",
       "appPassword": "",
       "endpoint": "http://localhost:3978/api/messages"
-    }
+    },
+      {
+        "type": "luis",
+        "name": "beerBot",
+        "appId": "171fae8b-0661-478e-99c8-f14a74670ed5",
+        "version": "0.1",
+        "authoringKey": "1d4d4c81dcd5408b8e4a6bababb66183",
+        "subscriptionKey": "1d4d4c81dcd5408b8e4a6bababb66183",
+        "region": "westus",
+        "id": "206"
+      }
   ]
 }
