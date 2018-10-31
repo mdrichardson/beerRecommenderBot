@@ -5,12 +5,16 @@ import { ActivityTypes, CardFactory, ConversationState, RecognizerResult, StateP
 import { DialogSet, DialogContext, DialogState, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
 import { LuisRecognizer } from 'botbuilder-ai';
 
-import { WelcomeCard } from './dialogs/welcome';
 import { UserProfile, GreetingDialog } from './dialogs/greeting';
+import { BeerDialog } from './dialogs/beer';
 import { BotConfiguration, LuisService } from 'botframework-config';
 
-// Greeting Dialog ID
+const WELCOME_MESSAGE = 'Hello! I am beerBot. I can help you find new beers to try.';
+
+// Dialog IDs
 const GREETING_DIALOG = 'greetingDialog';
+const BEER_DIALOG = 'beerDialog';
+
 
 // State Accessor Properties
 const DIALOG_STATE_PROPERTY = 'dialogState';
@@ -21,10 +25,11 @@ const LUIS_CONFIGURATION = 'beerBot-LUIS';
 
 
 // Supported LUIS Intents
-const GREETING_INTENT = 'Greeting';
-const CANCEL_INTENT = 'Cancel';
-const HELP_INTENT = 'Help';
+const GREETING_INTENT = 'Utilities_Greeting';
+const CANCEL_INTENT = 'Utilities_Cancel';
+const HELP_INTENT = 'Utilities_Help';
 const NONE_INTENT = 'None';
+const BEER_INTENT = 'getBeerRecommendations';
 
 // Supported LUIS Entities, defined in ./dialogs/greeting/resources/greeting.lu
 const USER_NAME_ENTITIES = ['userName', 'userName_paternAny'];
@@ -32,7 +37,6 @@ const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
 
 /**
  * Demonstrates the following concepts:
- *  Displaying a Welcome Card, using Adaptive Card technology
  *  Use LUIS to model Greetings, Help, and Cancel interactions
  *  Use a Waterfall dialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
@@ -82,6 +86,7 @@ export class BasicBot {
     // Create top-level dialog(s)
     this.dialogs = new DialogSet(this.dialogState);
     this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.userProfileAccessor));
+    this.dialogs.add(new BeerDialog(BEER_DIALOG, this.userProfileAccessor));
 
     this.conversationState = conversationState;
     this.userState = userState;
@@ -89,7 +94,7 @@ export class BasicBot {
 
   /**
    * Driver code that does one of the following:
-   * 1. Display a welcome card upon receiving ConversationUpdate activity
+   * 1. Display a welcome MESSAGE upon receiving ConversationUpdate activity
    * 2. Use LUIS to recognize intents for incoming user message
    * 3. Start a greeting dialog
    * 4. Optionally handle Cancel or Help interruptions
@@ -139,6 +144,9 @@ export class BasicBot {
               case GREETING_INTENT:
                 await dc.beginDialog(GREETING_DIALOG);
                 break;
+              case BEER_INTENT:
+                await dc.beginDialog(BEER_DIALOG);
+                break;
               case NONE_INTENT:
               default:
                 // help or no intent identified, either way, let's provide some help
@@ -174,11 +182,7 @@ export class BasicBot {
           // bot was added to the conversation.
           if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
             // Welcome user.
-            // When activity type is "conversationUpdate" and the member joining the conversation is the bot
-            // we will send our Welcome Adaptive Card.  This will only be sent once, when the Bot joins conversation
-            // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
-            const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
-            await context.sendActivity({ attachments: [welcomeCard] });
+            await context.sendActivity(WELCOME_MESSAGE);
           }
         }
       }
