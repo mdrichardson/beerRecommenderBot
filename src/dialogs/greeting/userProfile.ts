@@ -8,17 +8,20 @@
 class UserProfile {
   // member variables
   public name: string;
-  public city: string;
+  public beerDrinker: boolean;
+  public beerStyle: string;
   /**
    * Constructor. Members initialized with undefined,
    *  if no values provided via constructor
    *
    * @param name string
-   * @param city string
+   * @param beerDrinker boolean
+   * @param beerStyle string
    */
-  constructor(name?: string, city?: string) {
+  constructor(name?: string, beerDrinker?: boolean, beerStyle?: string) {
     this.name = name || undefined;
-    this.city = city || undefined;
+    this.beerDrinker = beerDrinker || undefined;
+    this.beerStyle = beerStyle || undefined;
   }
 };
 

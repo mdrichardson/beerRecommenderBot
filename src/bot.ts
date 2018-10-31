@@ -9,7 +9,7 @@ import { UserProfile, GreetingDialog } from './dialogs/greeting';
 import { BeerDialog } from './dialogs/beer';
 import { BotConfiguration, LuisService } from 'botframework-config';
 
-const WELCOME_MESSAGE = 'Hello! I am beerBot. I can help you find new beers to try.';
+const WELCOME_MESSAGE = 'Hello! I\'m **beerBot**. I can help you find new beers to try.';
 
 // Dialog IDs
 const GREETING_DIALOG = 'greetingDialog';
@@ -116,7 +116,7 @@ export class BasicBot {
       const topIntent = LuisRecognizer.topIntent(results);
 
       // update user profile property with any entities captured by LUIS
-      // This could be user responding with their name or city while we are in the middle of greeting dialog,
+      // This could be user responding with their name while we are in the middle of greeting dialog,
       // or user saying something like 'i'm {userName}' while we have no active multi-turn dialog.
       await this.updateUserProfile(results, context);
 
@@ -241,13 +241,6 @@ export class BasicBot {
           let lowerCaseName = luisResult.entities[name][0];
           // capitalize and set user name
           userProfile.name = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.substr(1);
-        }
-      });
-      USER_LOCATION_ENTITIES.forEach(city => {
-        if (luisResult.entities[city] !== undefined) {
-          let lowerCaseCity = luisResult.entities[city][0];
-          // capitalize and set user name
-          userProfile.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
         }
       });
       // set the new values

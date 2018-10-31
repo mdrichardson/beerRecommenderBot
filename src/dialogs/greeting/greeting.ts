@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 // greeting.js defines the greeting dialog
-import { ComponentDialog, DialogContext, PromptValidatorContext, TextPrompt, WaterfallDialog, WaterfallStepContext } from 'botbuilder-dialogs';
-import { StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ComponentDialog, ChoicePrompt, PromptValidatorContext, TextPrompt, WaterfallDialog, WaterfallStepContext, Choice } from 'botbuilder-dialogs';
+import { StatePropertyAccessor } from 'botbuilder';
 
 // User state for greeting dialog
 import { UserProfile } from './userProfile';
+import { isContext } from 'vm';
 
-// Minimum lengh requirements for city and name
-const CITY_LENGTH_MIN = 5;
+// Minimum lengh requirements for name and beerStyle
 const NAME_LENGTH_MIN = 3;
 
 // Dialog IDs
@@ -16,7 +16,7 @@ const PROFILE_DIALOG = 'profileDialog';
 
 // Prompt IDs
 const NAME_PROMPT = 'namePrompt';
-const CITY_PROMPT = 'cityPrompt';
+const BEER_DRINKER = 'beerDrinker';
 
 const VALIDATION_SUCCEEDED = true;
 const VALIDATION_FAILED = !VALIDATION_SUCCEEDED;
@@ -24,7 +24,7 @@ const VALIDATION_FAILED = !VALIDATION_SUCCEEDED;
 /**
  * Demonstrates the following concepts:
  *  Use a subclass of ComponentDialog to implement a multi-turn conversation
- *  Use a Waterfall dialog to model multi-turn conversation flow
+ *  Use a dialog to model
  *  Use custom prompts to validate user input
  *  Store conversation and user state
  *
@@ -42,19 +42,17 @@ export class GreetingDialog extends ComponentDialog {
     if (!dialogId) throw ('Missing parameter.  dialogId is required');
     if (!userProfileAccessor) throw ('Missing parameter.  userProfileAccessor is required');
 
-    // Add a water fall dialog with 4 steps.
-    // The order of step function registration is importent
-    // as a water fall dialog executes steps registered in order
-    this.addDialog(new WaterfallDialog<UserProfile>(PROFILE_DIALOG, [
+    // Add text prompt for name
+    this.addDialog(new WaterfallDialog(PROFILE_DIALOG, [
       this.initializeStateStep.bind(this),
       this.promptForNameStep.bind(this),
-      this.promptForCityStep.bind(this),
+      this.verifyBeerDrinkingStep.bind(this),
       this.displayGreetingStateStep.bind(this)
     ]));
-
-    // Add text prompts for name and city
+    
+    // Add text prompts for name and yes/no prompt for beer drinking
     this.addDialog(new TextPrompt(NAME_PROMPT, this.validateName));
-    this.addDialog(new TextPrompt(CITY_PROMPT, this.validateCity));
+    this.addDialog(new ChoicePrompt(BEER_DRINKER))
 
     // Save off our state accessor for later use
     this.userProfileAccessor = userProfileAccessor;
@@ -86,12 +84,12 @@ export class GreetingDialog extends ComponentDialog {
   private promptForNameStep = async (step: WaterfallStepContext<UserProfile>) => {
     const userProfile = await this.userProfileAccessor.get(step.context);
     // if we have everything we need, greet user and return
-    if (userProfile !== undefined && userProfile.name !== undefined && userProfile.city !== undefined) {
-      return await this.greetUser(step);
+    if (userProfile !== undefined && userProfile.name !== undefined) {
+      return await this.verifyBeerDrinkingStep(step);
     }
     if (!userProfile.name) {
       // prompt for name, if missing
-      return await step.prompt(NAME_PROMPT, 'What is your name?');
+      return await step.prompt(NAME_PROMPT, 'What should I call you?');
     } else {
       return await step.next();
     }
@@ -99,12 +97,12 @@ export class GreetingDialog extends ComponentDialog {
   /**
    * Waterfall Dialog step functions.
    *
-   * Using a text prompt, prompt the user for the city in which they live.
+   * Using a choice prompt, see if the user drinks beer
    * Only prompt if we don't have this information already.
    *
    * @param {WaterfallStepContext} step contextual information for the current step being executed
    */
-  private promptForCityStep = async (step: WaterfallStepContext<UserProfile>) => {
+  private verifyBeerDrinkingStep = async (step: WaterfallStepContext<UserProfile>) => {
     // save name, if prompted for
     const userProfile = await this.userProfileAccessor.get(step.context);
     if (userProfile.name === undefined && step.result) {
@@ -113,9 +111,17 @@ export class GreetingDialog extends ComponentDialog {
       userProfile.name = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.substr(1);
       await this.userProfileAccessor.set(step.context, userProfile);
     }
-    if (!userProfile.city) {
-      // prompt for city, if missing
-      return await step.prompt(CITY_PROMPT, `Hello ${userProfile.name}, what city do you live in?`);
+    // if we have everything we need, greet user and return
+    if (userProfile !== undefined && userProfile.beerDrinker !== undefined) {
+      return await this.greetUser(step);
+    }
+    if (!userProfile.beerDrinker) {
+      // prompt for drinking status, if missing
+      return await step.prompt(BEER_DRINKER, {
+        prompt: `Hello ${userProfile.name}! You do drink beer, right?`,
+        retryPrompt: 'Sorry, please choose Yes or No',
+        choices: ['Yes', 'No']
+      });
     } else {
       return await step.next();
     }
@@ -128,12 +134,11 @@ export class GreetingDialog extends ComponentDialog {
    * @param {WaterfallStepContext} step contextual information for the current step being executed
    */
   private displayGreetingStateStep = async (step: WaterfallStepContext<UserProfile>) => {
-    // Save city, if prompted for
+    // save drinking status, if prompted for
     const userProfile = await this.userProfileAccessor.get(step.context);
-    if (userProfile.city === undefined && step.result) {
-      let lowerCaseCity = step.result;
-      // capitalize and set city
-      userProfile.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
+    if (userProfile.beerDrinker === undefined && step.result) {
+      // Set drinking status
+      userProfile.beerDrinker = step.result.value.toLowerCase() === 'yes' ? true : false;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
     return await this.greetUser(step);
@@ -154,30 +159,18 @@ export class GreetingDialog extends ComponentDialog {
     }
   }
   /**
-   * Validator function to verify if city meets required constraints.
-   *
-   * @param {PromptValidatorContext} validation context for this validator.
-   */
-  private validateCity = async (validatorContext: PromptValidatorContext<String>) => {
-    // Validate that the user entered a minimum lenght for their name
-    const value = (validatorContext.recognized.value || '').trim();
-    if (value.length >= CITY_LENGTH_MIN) {
-      return VALIDATION_SUCCEEDED;
-    } else {
-      await validatorContext.context.sendActivity(`City names needs to be at least ${CITY_LENGTH_MIN} characters long.`);
-      return VALIDATION_FAILED;
-    }
-  }
-  /**
    * Helper function to greet user with information in greetingState.
    *
    * @param {WaterfallStepContext} step contextual information for the current step being executed
    */
   async greetUser(step: WaterfallStepContext) {
     const userProfile = await this.userProfileAccessor.get(step.context);
-    // Display to the user their profile information and end dialog
-    await step.context.sendActivity(`Hi ${userProfile.name}, from ${userProfile.city}, nice to meet you!`);
-    await step.context.sendActivity(`You can always say 'My name is <your name> to reintroduce yourself to me.`);
+    // Change user's name based on their drinking status
+    const newName = userProfile.beerDrinker ? `Beer-drinking ${userProfile.name}` : `Sober ${userProfile.name}`;
+    userProfile.name = newName;
+    await this.userProfileAccessor.set(step.context, userProfile);
+    await step.context.sendActivity(`Awesome! I\'m going to call you ${newName}`);
+    await step.context.sendActivity(`${newName}, if you\'d like me to recommend a beer for you to try, just ask!`);
     return await step.endDialog();
   }
 }
