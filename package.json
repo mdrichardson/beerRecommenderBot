@@ -9,7 +9,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc",
         "start": "tsc && node ./lib/index.js",
-        "watch": "tsc && node ./lib/index.js"
+        "watch": "tsc && nodemon ./lib/index.js"
     },
     "dependencies": {
         "botbuilder": "^4.0.6",
