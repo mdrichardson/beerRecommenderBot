@@ -25,7 +25,7 @@ const LUIS_CONFIGURATION = 'beerBot-LUIS';
 
 
 // Supported LUIS Intents
-const GREETING_INTENT = 'Utilities_Greeting';
+const GREETING_INTENT = 'Greeting';
 const CANCEL_INTENT = 'Utilities_Cancel';
 const HELP_INTENT = 'Utilities_Help';
 const NONE_INTENT = 'None';
