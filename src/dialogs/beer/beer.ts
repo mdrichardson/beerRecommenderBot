@@ -118,17 +118,22 @@ export class BeerDialog extends ComponentDialog {
       userProfile.beerStyleFavorite = step.result.value;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
-    // Don't save their same or similar choice in case they want to go through recommendation again
-    return await step.prompt(SAMEORSIMILAR_PROMPT, {
-      prompt: `Do you want recommendations in the same style as ${userProfile.beerStyleFavorite},
-        something lighter, or something darker?`,
-      retryPrompt: 'Sorry, please choose from one of the listed options',
-      choices: [
-        'Lighter',
-        'Same',
-        'Darker'
-      ]
-    });
+    // If user already made their selection, proceed to next step
+    if (!userProfile.beerStyleToRecommend) {
+      return await step.prompt(SAMEORSIMILAR_PROMPT, {
+        prompt: `Do you want recommendations in the same style as ${userProfile.beerStyleFavorite},
+          something lighter, or something darker?`,
+        retryPrompt: 'Sorry, please choose from one of the listed options',
+        choices: [
+          'Lighter',
+          'Same',
+          'Darker'
+        ]
+      });
+    } else {
+      return await step.next();
+    }
+    
   }
   /**
    * Waterfall Dialog step functions.
@@ -139,7 +144,8 @@ export class BeerDialog extends ComponentDialog {
    */
   private evaluateSameOrSimilar = async (step: WaterfallStepContext<UserProfile>) => {
     const userProfile = await this.userProfileAccessor.get(step.context);
-    const style = userProfile.beerStyleFavorite;
+    if (!userProfile.beerStyleToRecommend) {
+      const style = userProfile.beerStyleFavorite;
     const adjustment = step.result.value;
     let evaluationMessage;
     const lightnessList = [
@@ -179,6 +185,7 @@ export class BeerDialog extends ComponentDialog {
       await this.userProfileAccessor.set(step.context, userProfile);
     }
     await step.context.sendActivity(evaluationMessage);
+    }
     return await step.next();
   }
   /**
