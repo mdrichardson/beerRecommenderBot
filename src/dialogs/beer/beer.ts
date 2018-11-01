@@ -41,14 +41,15 @@ export class BeerDialog extends ComponentDialog {
       this.promptForBeerSelection.bind(this),
       this.promptForLocationRequest.bind(this),
       this.provideLocation.bind(this),
-      this.promptForRestart.bind(this)
+      this.promptForRestart.bind(this),
+      this.resetIfNecessary.bind(this)
     ]));
     
     // Add text prompts for name and yes/no prompt for beer drinking
     this.addDialog(new ChoicePrompt(STYLE_PROMPT));
     this.addDialog(new ChoicePrompt(SAMEORSIMILAR_PROMPT));
     const beerSelection = new ChoicePrompt(BEER_SELECTION_PROMPT)
-    beerSelection.style = 0
+    beerSelection.style = 0;
     this.addDialog(beerSelection);
     this.addDialog(new TextPrompt(LOCATION_REQUEST_PROMPT));
     this.addDialog(new ChoicePrompt(RESTART_PROMPT));
@@ -150,46 +151,47 @@ export class BeerDialog extends ComponentDialog {
   private evaluateSameOrSimilar = async (step: WaterfallStepContext<UserProfile>) => {
     const userProfile = await this.userProfileAccessor.get(step.context);
     if (!userProfile.beerStyleToRecommend) {
-      const style = userProfile.beerStyleFavorite;
-    const adjustment = step.result.value;
-    let evaluationMessage;
-    const lightnessList = [
-      'Light/Lager',
-      'Pale',
-      'Blonde',
-      'India Pale Ale (IPA)',
-      'Wheat/Hefeweizen',
-      'Amber',
-      'Red',
-      'Brown',
-      'Porter/Stout'
-    ]
-    // Change recommendation based on whether user selected they want Same, Lighter, or Darker 
-    if (adjustment !== 'Same') {
-      // Handle the edge cases
-      if (style === 'Light/Lager' && adjustment === 'Lighter') {
-        evaluationMessage = 'Sorry, but there are no lighter beers than Light/Lager beers.\n' +
-          'I\'ll still recommend **Light/Lager** beers.';
-      } else if (style === 'Porter/Stout' && adjustment === 'Darker') {
-        evaluationMessage = 'Sorry, but there are no darker beers than Porter/Stout beers.\n' +
-          'I\'ll still recommend **Porter/Stout** beers.';
-      // Handle valid Lighter/Darker choices
+      let style = userProfile.beerStyleFavorite;
+      const adjustment = step.result.value;
+      let evaluationMessage;
+      const lightnessList = [
+        'Light/Lager',
+        'Pale',
+        'Blonde',
+        'India Pale Ale (IPA)',
+        'Wheat/Hefeweizen',
+        'Amber',
+        'Red',
+        'Brown',
+        'Porter/Stout'
+      ]
+      // Change recommendation based on whether user selected they want Same, Lighter, or Darker 
+      if (adjustment !== 'Same') {
+        // Handle the edge cases
+        if (style === 'Light/Lager' && adjustment === 'Lighter') {
+          evaluationMessage = 'Sorry, but there are no lighter beers than Light/Lager beers.\n' +
+            'I\'ll still recommend **Light/Lager** beers.';
+        } else if (style === 'Porter/Stout' && adjustment === 'Darker') {
+          evaluationMessage = 'Sorry, but there are no darker beers than Porter/Stout beers.\n' +
+            'I\'ll still recommend **Porter/Stout** beers.';
+        // Handle valid Lighter/Darker choices
+        } else {
+          const selectionIndex = lightnessList.indexOf(style);
+          const newIndex = adjustment === 'Lighter' ? selectionIndex - 1 : selectionIndex + 1;
+          style = lightnessList[newIndex];
+          evaluationMessage = `Sweet! I'll recommend you some **${style}** beers.`;
+        }
+      // Handle Same choice
       } else {
-        const selectionIndex = lightnessList.indexOf(style);
-        const newIndex = adjustment === 'Lighter' ? selectionIndex - 1 : selectionIndex + 1;
-        evaluationMessage = `Sweet! I'll recommend you some **${lightnessList[newIndex]}** beers.`;
+        evaluationMessage = `Awesome! I'll recommend you some **${style}** beers.`;
       }
-    // Handle Same choice
-    } else {
-      evaluationMessage = `Sweet! I'll recommend you some **${style}** beers.`;
-    }
-    // save recommended style, if prompted for
-    if (userProfile.beerStyleToRecommend === undefined && style) {
-      // Set style preference
-      userProfile.beerStyleToRecommend = style;
-      await this.userProfileAccessor.set(step.context, userProfile);
-    }
-    await step.context.sendActivity(evaluationMessage);
+      // save recommended style, if prompted for
+      if (userProfile.beerStyleToRecommend === undefined && style) {
+        // Set style preference
+        userProfile.beerStyleToRecommend = style;
+        await this.userProfileAccessor.set(step.context, userProfile);
+      }
+      await step.context.sendActivity(evaluationMessage);
     }
     return await step.next();
   }
@@ -228,7 +230,10 @@ export class BeerDialog extends ComponentDialog {
       userProfile.beerSelected = step.result.value;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
-    return await step.prompt(LOCATION_REQUEST_PROMPT, `**Enter your address** and I\`ll find a nearby craft beer store to you so you can go buy **${userProfile.beerSelected}**`);
+    if (!userProfile.location) {
+      return await step.prompt(LOCATION_REQUEST_PROMPT, `**Enter your address** and I\`ll find a nearby craft beer store to you so you can go buy **${userProfile.beerSelected}**`);
+    }
+    return await step.next();
   }
   /**
    * Waterfall Dialog step functions.
@@ -245,13 +250,41 @@ export class BeerDialog extends ComponentDialog {
       userProfile.location = step.result;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
-    try {
       let beerStoreLocator: BeerStoreLocator = new BeerStoreLocator;
-      const store = await beerStoreLocator.getBeerStoreLocation(step.result);
-      await step.context.sendActivity(await store);
-      return await step.endDialog();
-    } catch (err) {
-      console.error(err)
+      const store = await beerStoreLocator.getBeerStoreLocation(userProfile.location);
+      await step.context.sendActivity(store);
+      return await step.next();
+  }
+  /**
+   * Waterfall Dialog step functions.
+   *
+   * Displays recommended beers and prompts user to select one
+   *
+   * @param {WaterfallStepContext} step contextual information for the current step being executed
+   */
+  private promptForRestart = async (step: WaterfallStepContext<UserProfile>) => {
+    return await step.prompt(BEER_SELECTION_PROMPT, {
+      prompt: 'Now that we\'ve found your recommended beer and where to get it, **do you want to try again with a new recommendation?**',
+      retryPrompt: 'Sorry, please choose Yes or No',
+      choices: ['Yes', 'No'],
+    });
+  }
+  /**
+   *
+   * Resets user beer-related profile data if necessary
+   *
+   * @param {WaterfallStepContext} step contextual information for the current step being executed
+   */
+  private resetIfNecessary = async (step: WaterfallStepContext<UserProfile>) => {
+    const userProfile = await this.userProfileAccessor.get(step.context);
+    if (step.result.value.toLowerCase() === 'yes') {
+      userProfile.beerStyleFavorite = undefined;
+      userProfile.beerStyleToRecommend = undefined;
+      userProfile.beerSelected = undefined;
+      await step.context.sendActivity(`Alright ${userProfile.name}, your beer preferences reset. Feel free to ask me for another recommendation!`);
+    } else {
+      await step.context.sendActivity(`No problem, ${userProfile.name}. I\'ll save your preferences.`);
     }
+    return await step.endDialog();
   }
 }

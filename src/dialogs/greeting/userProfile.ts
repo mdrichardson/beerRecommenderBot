@@ -33,7 +33,7 @@ class UserProfile {
     beerSelected?: string,
     location?: string,
     ) {
-    this.name = name || undefined;
+    this.name = name || 'friend';
     this.beerDrinker = beerDrinker || undefined;
     this.beerStyleFavorite = beerStyleFavorite || undefined;
     this.beerStyleToRecommend = beerStyleToRecommend || undefined;
