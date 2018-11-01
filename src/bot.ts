@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ActivityTypes, CardFactory, ConversationState, RecognizerResult, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
+import { ActivityTypes, ConversationState, RecognizerResult, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
 import { DialogSet, DialogContext, DialogState, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
 import { LuisRecognizer } from 'botbuilder-ai';
 

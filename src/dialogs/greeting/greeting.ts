@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 // greeting.js defines the greeting dialog
-import { ComponentDialog, ChoicePrompt, PromptValidatorContext, TextPrompt, WaterfallDialog, WaterfallStepContext, Choice } from 'botbuilder-dialogs';
+import { ComponentDialog, ChoicePrompt, PromptValidatorContext, TextPrompt, WaterfallDialog, WaterfallStepContext } from 'botbuilder-dialogs';
 import { StatePropertyAccessor } from 'botbuilder';
 
 // User state for greeting dialog
 import { UserProfile } from './userProfile';
-import { isContext } from 'vm';
 
 // Minimum lengh requirements for name and beerStyle
 const NAME_LENGTH_MIN = 3;
@@ -16,7 +15,7 @@ const PROFILE_DIALOG = 'profileDialog';
 
 // Prompt IDs
 const NAME_PROMPT = 'namePrompt';
-const BEER_DRINKER = 'beerDrinker';
+const BEER_DRINKER_PROMPT = 'beerDrinker';
 
 const VALIDATION_SUCCEEDED = true;
 const VALIDATION_FAILED = !VALIDATION_SUCCEEDED;
@@ -52,7 +51,7 @@ export class GreetingDialog extends ComponentDialog {
     
     // Add text prompts for name and yes/no prompt for beer drinking
     this.addDialog(new TextPrompt(NAME_PROMPT, this.validateName));
-    this.addDialog(new ChoicePrompt(BEER_DRINKER))
+    this.addDialog(new ChoicePrompt(BEER_DRINKER_PROMPT))
 
     // Save off our state accessor for later use
     this.userProfileAccessor = userProfileAccessor;
@@ -83,7 +82,7 @@ export class GreetingDialog extends ComponentDialog {
    */
   private promptForNameStep = async (step: WaterfallStepContext<UserProfile>) => {
     const userProfile = await this.userProfileAccessor.get(step.context);
-    // if we have everything we need, greet user and return
+    // if we have everything we need, go to the next step
     if (userProfile !== undefined && userProfile.name !== undefined) {
       return await this.verifyBeerDrinkingStep(step);
     }
@@ -117,7 +116,7 @@ export class GreetingDialog extends ComponentDialog {
     }
     if (!userProfile.beerDrinker) {
       // prompt for drinking status, if missing
-      return await step.prompt(BEER_DRINKER, {
+      return await step.prompt(BEER_DRINKER_PROMPT, {
         prompt: `Hello ${userProfile.name}! You do drink beer, right?`,
         retryPrompt: 'Sorry, please choose Yes or No',
         choices: ['Yes', 'No']

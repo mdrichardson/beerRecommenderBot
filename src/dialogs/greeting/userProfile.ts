@@ -9,19 +9,32 @@ class UserProfile {
   // member variables
   public name: string;
   public beerDrinker: boolean;
-  public beerStyle: string;
+  public beerStyleFavorite: string;
+  public beerStyleToRecommend: string;
+  public beerSelected: string;
+
   /**
    * Constructor. Members initialized with undefined,
    *  if no values provided via constructor
    *
    * @param name string
    * @param beerDrinker boolean
-   * @param beerStyle string
+   * @param beerStyleFavorite string
+   * @param beerStyleToRecommend string
+   * @param beerSelected string
    */
-  constructor(name?: string, beerDrinker?: boolean, beerStyle?: string) {
+  constructor(
+    name?: string,
+    beerDrinker?: boolean,
+    beerStyleFavorite?: string,
+    beerStyleToRecommend?: string,
+    beerSelected?: string,
+    ) {
     this.name = name || undefined;
     this.beerDrinker = beerDrinker || undefined;
-    this.beerStyle = beerStyle || undefined;
+    this.beerStyleFavorite = beerStyleFavorite || undefined;
+    this.beerStyleToRecommend = beerStyleToRecommend || undefined;
+    this.beerSelected = beerSelected || undefined;
   }
 };
 
