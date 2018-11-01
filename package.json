@@ -12,6 +12,7 @@
         "watch": "tsc && node ./lib/index.js"
     },
     "dependencies": {
+        "axios": "^0.18.0",
         "botbuilder": "^4.0.6",
         "botbuilder-ai": "^4.0.6",
         "botbuilder-core": "^4.0.6",
@@ -20,6 +21,7 @@
         "botframework-connector": "^4.1.3",
         "botframework-schema": "^4.0.6",
         "dotenv": "^6.1.0",
+        "form-data": "^2.3.3",
         "restify": "^6.3.4"
     },
     "devDependencies": {

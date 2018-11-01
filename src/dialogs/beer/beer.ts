@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 // greeting.js defines the greeting dialog
-import { ComponentDialog, ChoicePrompt,  WaterfallDialog, WaterfallStepContext, ListStyle } from 'botbuilder-dialogs';
+import { ComponentDialog, ChoicePrompt,  WaterfallDialog, WaterfallStepContext, TextPrompt } from 'botbuilder-dialogs';
 import { StatePropertyAccessor } from 'botbuilder';
 
 // User state for greeting dialog
@@ -9,6 +9,7 @@ import { UserProfile } from './index';
 
 // Beer "database"
 import { BeerDatabase } from './beerDatabase';
+import { BeerStoreLocator } from './beerStoreLocator';
 
 // Dialog IDs
 const BEER_DIALOG = 'beerDialog';
@@ -37,7 +38,8 @@ export class BeerDialog extends ComponentDialog {
       this.promptForSameOrSimilar.bind(this),
       this.evaluateSameOrSimilar.bind(this),
       this.promptForBeerSelection.bind(this),
-      this.promptForLocationRequest.bind(this)
+      this.promptForLocationRequest.bind(this),
+      this.provideLocation.bind(this)
     ]));
     
     // Add text prompts for name and yes/no prompt for beer drinking
@@ -46,7 +48,7 @@ export class BeerDialog extends ComponentDialog {
     const beerSelection = new ChoicePrompt(BEER_SELECTION_PROMPT)
     beerSelection.style = 0
     this.addDialog(beerSelection);
-    this.addDialog(new ChoicePrompt(LOCATION_REQUEST_PROMPT));    
+    this.addDialog(new TextPrompt(LOCATION_REQUEST_PROMPT));
 
     // Save off our state accessor for later use
     this.userProfileAccessor = userProfileAccessor;
@@ -198,7 +200,7 @@ export class BeerDialog extends ComponentDialog {
   private promptForBeerSelection = async (step: WaterfallStepContext<UserProfile>) => {
     const userProfile = await this.userProfileAccessor.get(step.context);
     // Don't save their same or similar choice in case they want to go through recommendation again
-    let beerDB:BeerDatabase = new BeerDatabase; 
+    let beerDB:BeerDatabase = new BeerDatabase;
     let recommendations = beerDB.displayRecommendations(userProfile.beerStyleToRecommend);
     await step.context.sendActivity(recommendations);
     return await step.prompt(BEER_SELECTION_PROMPT, {
@@ -223,5 +225,16 @@ export class BeerDialog extends ComponentDialog {
       userProfile.beerSelected = step.result.value;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
-  } 
+    return await step.prompt(LOCATION_REQUEST_PROMPT, `Enter your address and I\`ll find the closest beer store to you so you can go buy **${userProfile.beerSelected}**`);
+  }
+  private provideLocation = async (step: WaterfallStepContext<UserProfile>) => {
+    try {
+      let beerStoreLocator: BeerStoreLocator = new BeerStoreLocator;
+      const store = await beerStoreLocator.getBeerStoreLocation();
+      await step.context.sendActivity(await store);
+      return await step.endDialog();
+    } catch (err) {
+      console.error(err)
+    }
+  }
 }
