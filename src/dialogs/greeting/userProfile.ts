@@ -12,6 +12,7 @@ class UserProfile {
   public beerStyleFavorite: string;
   public beerStyleToRecommend: string;
   public beerSelected: string;
+  public location: string;
 
   /**
    * Constructor. Members initialized with undefined,
@@ -22,6 +23,7 @@ class UserProfile {
    * @param beerStyleFavorite string
    * @param beerStyleToRecommend string
    * @param beerSelected string
+   * @param location string
    */
   constructor(
     name?: string,
@@ -29,12 +31,14 @@ class UserProfile {
     beerStyleFavorite?: string,
     beerStyleToRecommend?: string,
     beerSelected?: string,
+    location?: string,
     ) {
     this.name = name || undefined;
     this.beerDrinker = beerDrinker || undefined;
     this.beerStyleFavorite = beerStyleFavorite || undefined;
     this.beerStyleToRecommend = beerStyleToRecommend || undefined;
     this.beerSelected = beerSelected || undefined;
+    this.location = location || undefined;
   }
 };
 

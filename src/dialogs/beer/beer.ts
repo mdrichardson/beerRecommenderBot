@@ -19,6 +19,7 @@ const STYLE_PROMPT = 'stylePrompt';
 const SAMEORSIMILAR_PROMPT = 'sameOrSimilarPrompt';
 const BEER_SELECTION_PROMPT = 'beerSelectionPrompt';
 const LOCATION_REQUEST_PROMPT = 'locationRequestPrompt';
+const RESTART_PROMPT = 'restartPrompt';
 
 export class BeerDialog extends ComponentDialog {
 
@@ -39,7 +40,8 @@ export class BeerDialog extends ComponentDialog {
       this.evaluateSameOrSimilar.bind(this),
       this.promptForBeerSelection.bind(this),
       this.promptForLocationRequest.bind(this),
-      this.provideLocation.bind(this)
+      this.provideLocation.bind(this),
+      this.promptForRestart.bind(this)
     ]));
     
     // Add text prompts for name and yes/no prompt for beer drinking
@@ -49,6 +51,7 @@ export class BeerDialog extends ComponentDialog {
     beerSelection.style = 0
     this.addDialog(beerSelection);
     this.addDialog(new TextPrompt(LOCATION_REQUEST_PROMPT));
+    this.addDialog(new ChoicePrompt(RESTART_PROMPT));
 
     // Save off our state accessor for later use
     this.userProfileAccessor = userProfileAccessor;
@@ -199,7 +202,7 @@ export class BeerDialog extends ComponentDialog {
    */
   private promptForBeerSelection = async (step: WaterfallStepContext<UserProfile>) => {
     const userProfile = await this.userProfileAccessor.get(step.context);
-    // Don't save their same or similar choice in case they want to go through recommendation again
+    // display recommendations
     let beerDB:BeerDatabase = new BeerDatabase;
     let recommendations = beerDB.displayRecommendations(userProfile.beerStyleToRecommend);
     await step.context.sendActivity(recommendations);
@@ -225,12 +228,26 @@ export class BeerDialog extends ComponentDialog {
       userProfile.beerSelected = step.result.value;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
-    return await step.prompt(LOCATION_REQUEST_PROMPT, `Enter your address and I\`ll find the closest beer store to you so you can go buy **${userProfile.beerSelected}**`);
+    return await step.prompt(LOCATION_REQUEST_PROMPT, `**Enter your address** and I\`ll find a nearby craft beer store to you so you can go buy **${userProfile.beerSelected}**`);
   }
+  /**
+   * Waterfall Dialog step functions.
+   *
+   * Display a hero card of a nearby craft beer store
+   *
+   * @param {WaterfallStepContext} step contextual information for the current step being executed
+   */
   private provideLocation = async (step: WaterfallStepContext<UserProfile>) => {
+    // save location, if prompted for
+    const userProfile = await this.userProfileAccessor.get(step.context);
+    if (userProfile.location === undefined && step.result) {
+      // Set selected beer
+      userProfile.location = step.result;
+      await this.userProfileAccessor.set(step.context, userProfile);
+    }
     try {
       let beerStoreLocator: BeerStoreLocator = new BeerStoreLocator;
-      const store = await beerStoreLocator.getBeerStoreLocation();
+      const store = await beerStoreLocator.getBeerStoreLocation(step.result);
       await step.context.sendActivity(await store);
       return await step.endDialog();
     } catch (err) {
