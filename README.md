@@ -1,14 +1,12 @@
 # beerRecommenderBot
-Recommend beers to try based on user preferences
+Recommend beers to try based on user preferences.
 
 This bot has been created using [Microsoft Bot Framework][1].
 
-This samples shows how to:
-- Use [LUIS][2] to implement core AI capabilities
-- Implement a multi-turn conversation using Dialogs
-- Handle user interruptions for such things as Help or Cancel
-- Prompt for and validate requests for information from the user
-- Demonstrate how to handle any unexptected errors
+My additions to the BasicBot from the SDK:
+- Uses custom [LUIS][2] choice prompt class that first looks for LUIS intents and if not found, prevents a list of valid options
+- Uses Bing Maps API to provide location of beer stores near user
+- Uses rich cards
 
 
 ## To run this bot
