@@ -10,14 +10,14 @@ npm i -g msbot luis-apis ludown
 ```
 
 # Keeping track of service references using .bot file
-We highly recommend you can keep track of all the services your bot depends on in a .bot file. You can use either the `msbot` CLI tool or use [Bot Framework Emulator][7] to manage your .bot file.  This project was created with a bot file named [`beerBot.bot`](../beerBot.bot)
+We highly recommend you can keep track of all the services your bot depends on in a .bot file. You can use either the `msbot` CLI tool or use [Bot Framework Emulator][7] to manage your .bot file.  This project was created with a bot file named [`beerRecommenderBot.bot`](../beerRecommenderBot.bot)
 
 # Configure all required services
 You can use [MSBOT][5] to create and configure the required services for this bot. To do this, simply run the following command from a terminal.
 You can get your LUIS authoring key by following steps [here][8] and get your Azure subscription ID by following steps [here][9].
 
 ```bash
-> cd beerBot
+> cd beerRecommenderBot
 
 > msbot clone services -n <YOUR BOT NAME> -f deploymentScripts/msbotClone --luisAuthoringKey <LUIS-KEY> --subscriptionId <AZURE-SUBSCRIPTION-ID>
 ```
@@ -26,12 +26,12 @@ You can get your LUIS authoring key by following steps [here][8] and get your Az
 The LUIS application created for this bot is described in a markdown based .lu file(s) [here](../dialogs/greeting/resources/main.lu). To update your published LUIS application with any changes made to the .lu files,  run the following commands.
 
 ```bash
-> cd beerBot
+> cd beerRecommenderBot
 ```
 
 1. To parse the .lu files to a LUIS model:
     ```bash
-    > ludown parse toluis --in dialogs/greeting/resources/main.lu -o cognitiveModels/ --out basicBot.luis -n 'beerBot-LUIS' -d 'Bot Builder V4 Basic Bot.' --verbose
+    > ludown parse toluis --in dialogs/greeting/resources/main.lu -o cognitiveModels/ --out basicBot.luis -n 'beerRecommenderBot-LUIS' -d 'Bot Builder V4 Basic Bot.' --verbose
     ```
 2. To create a new LUIS application using the LUIS model generated in step 1 and update the .bot file with the LUIS service configuration:
     ```bash

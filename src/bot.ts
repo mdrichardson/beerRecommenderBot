@@ -9,7 +9,7 @@ import { UserProfile, GreetingDialog } from './dialogs/greeting';
 import { BeerDialog } from './dialogs/beer';
 import { BotConfiguration, LuisService } from 'botframework-config';
 
-const WELCOME_MESSAGE = 'Hello! I\'m **beerBot**. I can help recommend you new beers to try.';
+const WELCOME_MESSAGE = 'Hello! I\'m **beerRecommenderBot**. I can help recommend you new beers to try.';
 
 // Dialog IDs
 const GREETING_DIALOG = 'greetingDialog';
@@ -21,7 +21,7 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'greetingStateProperty';
 
 // this is the LUIS service type entry in the .bot file.
-const LUIS_CONFIGURATION = 'beerBot-LUIS';
+const LUIS_CONFIGURATION = 'beerRecommenderBot-LUIS';
 
 
 // Supported LUIS Intents

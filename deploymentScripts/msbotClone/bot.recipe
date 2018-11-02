@@ -10,7 +10,7 @@
     {
       "type": "luis",
       "id": "34",
-      "name": "beerBot-LUIS"
+      "name": "beerRecommenderBot-LUIS"
     },
     {
       "type": "endpoint",
@@ -21,17 +21,17 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "beerBot-abs"
+      "name": "beerRecommenderBot-abs"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "beerBot-insights"
+      "name": "beerRecommenderBot-insights"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "beerBot-blob",
+      "name": "beerRecommenderBot-blob",
       "container": "botstatestore"
     }
   ]
