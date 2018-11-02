@@ -50,7 +50,7 @@ export class BeerDialog extends ComponentDialog {
 
     this.luisRecognizer = luisRecognizer;
     
-    // Add text prompts for name and yes/no prompt for beer drinking
+    // Add prompts
     const beerIntents = {
       amberBeer: 'Amber',
       blondeBeer: 'Blonde',
@@ -107,8 +107,8 @@ export class BeerDialog extends ComponentDialog {
       const username = userProfile.name ? userProfile.name : 'friend';
       // prompt for drinking status, if missing
       return await step.prompt(STYLE_PROMPT, {
-        prompt: `Alright ${username}, what beer style do you like best?`,
-        retryPrompt: 'Sorry, please choose from one of the listed styles',
+        prompt: `Alright ${username}, describe your favorite beer to me. What kind of color, flavor, aroma, and body does it have?`,
+        retryPrompt: 'Hmm...that doesn\'t seem to match anything I\'m familiar with.\n Please **choose one of the options listed**.',
         choices: [
           'Amber',
           'Blonde',
@@ -138,14 +138,13 @@ export class BeerDialog extends ComponentDialog {
     const userProfile = await this.userProfileAccessor.get(step.context);
     if (userProfile.beerStyleFavorite === undefined && step.result) {
       // Set style preference
-      userProfile.beerStyleFavorite = step.result.value;
+      userProfile.beerStyleFavorite = step.result || step.result.value;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
     // If user already made their selection, proceed to next step
     if (!userProfile.beerStyleToRecommend) {
       return await step.prompt(SAMEORSIMILAR_PROMPT, {
-        prompt: `Do you want recommendations in the same style as ${userProfile.beerStyleFavorite},
-          something lighter, or something darker?`,
+        prompt: `Sounds like you prefer the **${userProfile.beerStyleFavorite}** style.\nAm I right on, or would you like me to recommend something a little lighter or darker?`,
         retryPrompt: 'Sorry, please choose from one of the listed options',
         choices: [
           'Lighter',

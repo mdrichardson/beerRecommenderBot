@@ -59,9 +59,15 @@ export class LuisChoicesPrompt extends ChoicePrompt {
     let results;
     if (!this.isRetry) {
       const luisResults = await this.luisRecognzier.recognize(context);
-      results = Object.keys(luisResults.intents);
-      if (results[0] === 'None') {
-        return results[0];
+      const convertedResult = this.intentConverter[Object.keys(luisResults.intents)[0]]
+      if (!convertedResult) {
+        return result
+      } else {
+        results = [{
+          resolution: {
+            value: convertedResult
+          }
+        }];
       }
     } else {
       results = recognizeChoices(utterance, choices, opt);
