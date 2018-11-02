@@ -23,6 +23,8 @@
         "cryptiles": "^4.1.2",
         "dotenv": "^6.1.0",
         "form-data": "^2.3.3",
+        "luis": "^2.5.12",
+        "msbot": "^4.0.7",
         "restify": "^6.3.4"
     },
     "devDependencies": {
