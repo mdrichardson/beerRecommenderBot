@@ -16,7 +16,7 @@ export class BeerStoreLocator {
         method: 'get',
         url: `https://api.cognitive.microsoft.com/bing/v7.0/entities/?q=craft%20beer%20store%&mkt=en-US&count=1`,
         headers: {
-          'Ocp-Apim-Subscription-Key': '577f7a26406b48f4bb769cf8432ad539'
+          'Ocp-Apim-Subscription-Key': process.env.cogntiveApiKey
         },
         data: JSON.stringify(data)
       })
@@ -40,7 +40,7 @@ export class BeerStoreLocator {
     address = address.replace(' ', '%20')
     let response;
     try {
-      response = await axios.get(`http://dev.virtualearth.net/REST/v1/Locations/1%20${address}?o=json&key=Ar9ZMo4JOIeFIQaxXACuvnIEAVMZ5ustcBNmYt6oiFT6LEWN5xLWs2WMIPoIZw5v`);
+      response = await axios.get(`http://dev.virtualearth.net/REST/v1/Locations/1%20${address}?o=json&key=${process.env.virtualEarthKey}`);
       const coordinates = await response.data.resourceSets[0].resources[0].point.coordinates;
       return await coordinates
     }
