@@ -46,12 +46,13 @@ export class GreetingDialog extends ComponentDialog {
       this.initializeStateStep.bind(this),
       this.promptForNameStep.bind(this),
       this.verifyBeerDrinkingStep.bind(this),
-      this.displayGreetingStateStep.bind(this)
+      this.displayGreetingStateStep.bind(this),
+      this.greetUser.bind(this)
     ]));
     
     // Add text prompts for name and yes/no prompt for beer drinking
     this.addDialog(new TextPrompt(NAME_PROMPT, this.validateName));
-    this.addDialog(new ChoicePrompt(BEER_DRINKER_PROMPT))
+    this.addDialog(new ChoicePrompt(BEER_DRINKER_PROMPT));
 
     // Save off our state accessor for later use
     this.userProfileAccessor = userProfileAccessor;
@@ -83,10 +84,10 @@ export class GreetingDialog extends ComponentDialog {
   private promptForNameStep = async (step: WaterfallStepContext<UserProfile>) => {
     const userProfile = await this.userProfileAccessor.get(step.context);
     // if we have everything we need, go to the next step
-    if (userProfile !== undefined && userProfile.name !== undefined) {
+    if (userProfile !== undefined && userProfile.name !== 'friend') {
       return await this.verifyBeerDrinkingStep(step);
     }
-    if (!userProfile.name) {
+    if (userProfile.name === 'friend') {
       // prompt for name, if missing
       return await step.prompt(NAME_PROMPT, 'What should I call you?');
     } else {
@@ -103,8 +104,8 @@ export class GreetingDialog extends ComponentDialog {
    */
   private verifyBeerDrinkingStep = async (step: WaterfallStepContext<UserProfile>) => {
     // save name, if prompted for
-    const userProfile = await this.userProfileAccessor.get(step.context);
-    if (userProfile.name === undefined && step.result) {
+    const userProfile = await this.userProfileAccessor.get(step.context);''
+    if (userProfile.name === 'friend' && step.result) {
       let lowerCaseName = step.result;
       // capitalize and set name
       userProfile.name = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.substr(1);
@@ -117,7 +118,7 @@ export class GreetingDialog extends ComponentDialog {
     if (!userProfile.beerDrinker) {
       // prompt for drinking status, if missing
       return await step.prompt(BEER_DRINKER_PROMPT, {
-        prompt: `Hello ${userProfile.name}! You do drink beer, right?`,
+        prompt: `Hello ${userProfile.name}! You drink beer, right?`,
         retryPrompt: 'Sorry, please choose Yes or No',
         choices: ['Yes', 'No']
       });
@@ -140,7 +141,7 @@ export class GreetingDialog extends ComponentDialog {
       userProfile.beerDrinker = step.result.value.toLowerCase() === 'yes' ? true : false;
       await this.userProfileAccessor.set(step.context, userProfile);
     }
-    return await this.greetUser(step);
+    return await step.next();
   }
   /**
    * Validator function to verify that user name meets required constraints.

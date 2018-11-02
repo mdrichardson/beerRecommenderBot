@@ -9,7 +9,7 @@ import { UserProfile, GreetingDialog } from './dialogs/greeting';
 import { BeerDialog } from './dialogs/beer';
 import { BotConfiguration, LuisService } from 'botframework-config';
 
-const WELCOME_MESSAGE = 'Hello! I\'m **beerBot**. I can help you find new beers to try.';
+const WELCOME_MESSAGE = 'Hello! I\'m **beerBot**. I can help recommend you new beers to try.';
 
 // Dialog IDs
 const GREETING_DIALOG = 'greetingDialog';
@@ -29,11 +29,19 @@ const GREETING_INTENT = 'Greeting';
 const CANCEL_INTENT = 'Utilities_Cancel';
 const HELP_INTENT = 'Utilities_Help';
 const NONE_INTENT = 'None';
-const BEER_INTENT = 'getBeerRecommendations';
+const RECOMMEND_INTENT = 'getBeerRecommendations';
+const AMBER_BEER_INTENT = 'amberBeer';
+const BLONDE_BEER_INTENT = 'blondeBeer';
+const BROWN_BEER_INTENT = 'brownBeer';
+const IPA_BEER_INTENT = 'ipaBeer';
+const LIGHT_BEER_INTENT = 'lightBeer';
+const PALE_BEER_INTENT = 'paleBeer';
+const PORTER_BEER_INTENT = 'porterBeer';
+const RED_BEER_INTENT = 'redBeer';
+const WHEAT_BEER_INTENT = 'wheatBeer';
 
 // Supported LUIS Entities, defined in ./dialogs/greeting/resources/greeting.lu
 const USER_NAME_ENTITIES = ['userName', 'userName_paternAny'];
-const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
 
 /**
  * Demonstrates the following concepts:
@@ -86,7 +94,7 @@ export class BasicBot {
     // Create top-level dialog(s)
     this.dialogs = new DialogSet(this.dialogState);
     this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.userProfileAccessor));
-    this.dialogs.add(new BeerDialog(BEER_DIALOG, this.userProfileAccessor));
+    this.dialogs.add(new BeerDialog(BEER_DIALOG, this.userProfileAccessor, this.luisRecognizer));
 
     this.conversationState = conversationState;
     this.userState = userState;
@@ -144,14 +152,14 @@ export class BasicBot {
               case GREETING_INTENT:
                 await dc.beginDialog(GREETING_DIALOG);
                 break;
-              case BEER_INTENT:
+              case RECOMMEND_INTENT:
                 await dc.beginDialog(BEER_DIALOG);
                 break;
               case NONE_INTENT:
               default:
                 // help or no intent identified, either way, let's provide some help
                 // to the user
-                await dc.context.sendActivity(`I didn't understand what you just said to me.`);
+                await dc.context.sendActivity(`I didn't understand what you just said to me.\nTry saying 'hello' or 'give me a beer recommendation'`);
                 break;
             }
             break;
@@ -203,7 +211,7 @@ export class BasicBot {
   private isTurnInterrupted = async (dc: DialogContext, luisResults: RecognizerResult) => {
     const topIntent = LuisRecognizer.topIntent(luisResults);
 
-    // see if there are anh conversation interrupts we need to handle
+    // see if there are any conversation interrupts we need to handle
     if (topIntent === CANCEL_INTENT) {
       if (dc.activeDialog) {
         // cancel all active dialog (clean the stack)
@@ -213,11 +221,32 @@ export class BasicBot {
         await dc.context.sendActivity(`I don't have anything to cancel.`);
       }
       return true; // this is an interruption
+    } else { // if (dc.activeDialog.id === 'stylePrompt')
+      const beerIntents = {
+        [AMBER_BEER_INTENT]: 'Amber',
+        [BLONDE_BEER_INTENT]: 'Blonde',
+        [BROWN_BEER_INTENT]: 'Brown',
+        [IPA_BEER_INTENT]: 'India Pale Ale (IPA)',
+        [LIGHT_BEER_INTENT]: 'Wheat/Hefeweizen',
+        [PALE_BEER_INTENT]: 'Pale',
+        [PORTER_BEER_INTENT]: 'Porter/Stout',
+        [RED_BEER_INTENT]: 'Red',
+        [WHEAT_BEER_INTENT]: 'Wheat/Hefeweizen'
+      };
+
+      // if (Object.keys(beerIntents).indexOf(topIntent) > -1) {
+      //   console.log('got beer intent')
+      //   if (dc.activeDialog) {
+      //     console.log('active dialog')
+      //     dc.context.sendActivity('abc');
+      //     return true
+      //   }
+      // }
     }
 
     if (topIntent === HELP_INTENT) {
       await dc.context.sendActivity(`Let me try to provide some help.`);
-      await dc.context.sendActivity(`I understand greetings, being asked for help, or being asked to cancel what I am doing.`);
+      await dc.context.sendActivity(`I understand greetings, being asked for help, being asked for beer recommendations, or being asked to cancel what I am doing.`);
       return true; // this is an interruption
     }
     return false; // this is not an interruption

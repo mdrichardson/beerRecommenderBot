@@ -10,6 +10,8 @@ import { UserProfile } from './index';
 // Beer "database"
 import { BeerDatabase } from './beerDatabase';
 import { BeerStoreLocator } from './beerStoreLocator';
+import { LuisRecognizer } from 'botbuilder-ai';
+import { LuisChoicesPrompt } from './LuisChoicesPrompt';
 
 // Dialog IDs
 const BEER_DIALOG = 'beerDialog';
@@ -24,8 +26,9 @@ const RESTART_PROMPT = 'restartPrompt';
 export class BeerDialog extends ComponentDialog {
 
   private userProfileAccessor: StatePropertyAccessor<UserProfile>;
+  private luisRecognizer: LuisRecognizer;
 
-  constructor(dialogId: string, userProfileAccessor: StatePropertyAccessor<UserProfile>) {
+  constructor(dialogId: string, userProfileAccessor: StatePropertyAccessor<UserProfile>, luisRecognizer: LuisRecognizer) {
     super(dialogId);
 
     // validate what was passed in
@@ -44,9 +47,23 @@ export class BeerDialog extends ComponentDialog {
       this.promptForRestart.bind(this),
       this.resetIfNecessary.bind(this)
     ]));
+
+    this.luisRecognizer = luisRecognizer;
     
     // Add text prompts for name and yes/no prompt for beer drinking
-    this.addDialog(new ChoicePrompt(STYLE_PROMPT));
+    const beerIntents = {
+      amberBeer: 'Amber',
+      blondeBeer: 'Blonde',
+      brownBeer: 'Brown',
+      ipaBeer: 'India Pale Ale (IPA)',
+      lightBeer: 'Wheat/Hefeweizen',
+      paleBeer: 'Pale',
+      porterBeer: 'Porter/Stout',
+      redBeer: 'Red',
+      wheatBeer: 'Wheat/Hefeweizen'
+    };
+
+    this.addDialog(new LuisChoicesPrompt(STYLE_PROMPT, this.luisRecognizer, beerIntents));
     this.addDialog(new ChoicePrompt(SAMEORSIMILAR_PROMPT));
     const beerSelection = new ChoicePrompt(BEER_SELECTION_PROMPT)
     beerSelection.style = 0;
