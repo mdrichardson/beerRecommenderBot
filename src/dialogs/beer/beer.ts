@@ -50,7 +50,7 @@ export class BeerDialog extends ComponentDialog {
 
     this.luisRecognizer = luisRecognizer;
     
-    // Add prompts
+    // for special LuisChoicesPromp Dialog
     const beerIntents = {
       amberBeer: 'Amber',
       blondeBeer: 'Blonde',
@@ -63,8 +63,12 @@ export class BeerDialog extends ComponentDialog {
       wheatBeer: 'Wheat/Hefeweizen'
     };
 
+    // Add prompts to Waterfall
     this.addDialog(new LuisChoicesPrompt(STYLE_PROMPT, this.luisRecognizer, beerIntents));
     this.addDialog(new ChoicePrompt(SAMEORSIMILAR_PROMPT));
+    // I didn't see a good way to show cards and use those in a choice prompt, so we use a separate function to
+    //  show cards and then the prompt just doesn't show the cards
+    //  In hindsight, I could create a separate class like I did with the LuisChoicesPromp that does this
     const beerSelection = new ChoicePrompt(BEER_SELECTION_PROMPT)
     beerSelection.style = 0;
     this.addDialog(beerSelection);

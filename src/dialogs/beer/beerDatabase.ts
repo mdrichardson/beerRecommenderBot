@@ -1,7 +1,7 @@
 import { CardFactory, MessageFactory } from 'botbuilder';
 
 // Most info is from https://untappd.com and https://www.beeradvocate.com
-
+// Ideally, I would use an actual API for this data, but this was faster for demo purposes
 const lightBeers = [
   [
     'Budweiser',
@@ -191,6 +191,7 @@ const porterBeers = [
   ],
 ]
 
+// Convert string to appropriate beer style object
 const beerStyles = {
     'Light/Lager': lightBeers,
     'Pale': paleBeers,

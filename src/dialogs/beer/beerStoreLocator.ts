@@ -24,6 +24,7 @@ export class BeerStoreLocator {
       const place = await response.data.places.value[0];
       const placeCard = await this.createPlaceCard(place);
       return MessageFactory.attachment(placeCard)
+      // There can be issues with some addresses, so let's at least show a card for the sake of demonstrating functionality
     } catch (err) {
       console.error(err)
       console.error(response.data);
@@ -44,6 +45,7 @@ export class BeerStoreLocator {
       const coordinates = await response.data.resourceSets[0].resources[0].point.coordinates;
       return await coordinates
     }
+    // There can be issues with some addresses. If we return [null, null] the API used in BeerStoreLocator seems to try to find the user's location by thier IP address
     catch (err) {
       console.error(err);
       console.error(response.data.resourceSets);

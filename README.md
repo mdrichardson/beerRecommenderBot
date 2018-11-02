@@ -8,6 +8,11 @@ My additions to the BasicBot from the SDK:
 - Uses Bing Maps API to provide location of beer stores near user
 - Uses rich cards
 
+Things I'd like to improve:
+- Add more dialogue, especially for the greeting
+- Use an API for beer styles and for creating LUIS intents for those styles
+- Test edge cases. This was built for speed and there's likely a lot of user input that doesn't match the correct intent
+
 
 ## To run this bot
 - In a terminal,

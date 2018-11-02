@@ -57,12 +57,16 @@ export class LuisChoicesPrompt extends ChoicePrompt {
     const choices: any[] = (this.style === ListStyle.suggestedAction ? ChoiceFactory.toChoices(options.choices) : options.choices)|| [];
     const opt: FindChoicesOptions = this.recognizerOptions || {} as FindChoicesOptions;
     let results;
+    // If this isn't a retry, look for LUIS intent results. If it IS a retry, look for the normal ChoicePromp results
     if (!this.isRetry) {
       const luisResults = await this.luisRecognzier.recognize(context);
+      // Use the intentConverter to convert from the LUIS intent to a text string
       const convertedResult = this.intentConverter[Object.keys(luisResults.intents)[0]]
+      // Handle no results
       if (!convertedResult) {
         return result
       } else {
+        // Store in the correct format
         results = [{
           resolution: {
             value: convertedResult
