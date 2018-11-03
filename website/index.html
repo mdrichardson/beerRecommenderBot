@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="styles.css">
+  <title>beerBot</title>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="https://github.com/mdrichardson/beerRecommenderBot" title="beerBot GitHub Repo">GitHub</a></li>
+      <li><a href="https://www.mdrichardson.net" title="Michael Richardson Portfolio">Portfolio</a></li>
+    </ul>
+    <h1>beerBot</h1>
+  </nav>
+  <main>
+      <div id="bullets">
+        <div id="my-additions">
+          <h2>My additions to the BasicBot from the SDK:</h2>
+          <ul>
+            <li>
+              Uses custom [LUIS][2] choice prompt class that first looks for LUIS intents and if not found, prevents a list of valid options
+            </li>
+            <li>
+              Uses Bing Maps API to provide location of beer stores near user
+            </li>
+            <li>
+              Uses rich cards
+            </li>
+          </ul>
+        </div>
+        <div id="improvements">
+          <h2>Things I'd like to improve:</h2>
+          <ul>
+            <li>
+              Add more dialogue, especially for the greeting
+            </li>
+            <li>
+              Use an API for beer styles and for creating LUIS intents for those styles
+            </li>
+            <li>
+              Test edge cases. This was built for speed and there's likely a lot of user input that doesn't match the correct intent
+            </li>
+        </ul>
+        </div>
+      </div>
+      <div id="chat-container">
+        <div id="webchat"></div>
+      </div>
+  </main>
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+  <script>
+    const styleOptions = {
+      bubbleFromUserBackground: "#e07912",
+      sendBoxHeight: 60,
+      bubbleFromUserTextColor: '#fbf5f3',
+    }
+    window.WebChat.renderWebChat({
+      directLine: window.WebChat.createDirectLine({ secret: 'Qob9mQBEvWs.cwA.ebk.oXD6CEUPfG53G8WAifgqNeJ-T3prmQdPW0U-ENxNZBk' }),
+      styleOptions
+    }, document.getElementById('webchat'));
+  </script>
+</body>
+</html>
