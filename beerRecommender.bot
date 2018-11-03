@@ -14,12 +14,14 @@
         },
         {
             "type": "blob",
-            "connectionString": "ltvYvKCdW3egaSWxQhWF8g==!INY6YIvbuwU+alzCYOKSvkowNP8FI8fuHoaUmX+TgffapZtH1VWPn/Mxg5NhisVkcxTjMgBZLSEM3YnK7GCsM39Jttdt+OfZd3H/0lNV4BAxDaEx5eeizWqqZD0F8t7+aOp+ScvTD4g+Z7C8GyZhaE0gQVSMIAaR4LmWvd/xeO8c/67ueVxCTOuAnetYQcnHxrb6dtn4yu3nGYD5rWUTXA==",
+            "connectionString": "PQLltqsJcskgOc+APS645A==!P5jiQDyOTCy8Oar5LFkZCRKQ5dfBNs3SV+2Te0tfqos4Lpah52i+P1vM9j+7ve8h2uoxrLQlM7kJOZhMj9qKeCsoPxyP1bYeoq3cNMLFTMSw7UMCUfnZ7kd2Onth5jQ++YRJUo4yEfb9/Wo/r4LPZBL/uoC3qW8dUcA0f8aOqCd1rXxK/BUuxIoevxV/FXRrIr1weX3aH0/OgHQEd2tohw==",
             "tenantId": "022d9780-86ed-46e5-9a44-de0dcf5c6410",
             "subscriptionId": "3f3dba70-9012-4217-a0b1-fca52cf47b05",
             "resourceGroup": "beerBot",
             "serviceName": "beerrecommender",
-            "id": "2"
+            "id": "2",
+            "name": "blob",
+            "container": "botstatestore"
         },
         {
             "type": "endpoint",
@@ -32,7 +34,7 @@
         {
             "type": "endpoint",
             "appId": "927c4244-9f7e-420e-a68b-9b015269cc13",
-            "appPassword": "SlF9M5ZqcCZSqhNqi6Ot1g==!PhJv77GikAZVUbBhp6ww/UEsBB4pkKMdW+YPNAdxNqQ=",
+            "appPassword": "2Is6o8vMDyy7LuNtoW9ZMw==!jvPHOTaq68TkTwAo1i9c40NRYnSROjrL39RtXrfPNv8=",
             "endpoint": "https://beerrecommender.azurewebsites.net/api/messages",
             "name": "production",
             "id": "4"
@@ -40,11 +42,12 @@
         {
             "type": "luis",
             "name": "beerBot",
-            "appId": "171fae8b-0661-478e-99c8-f14a74670ed5",
+            "appId": "797ad396-32a3-4ae8-86de-7a569586fea6",
             "version": "v0.1",
-            "authoringKey": "Mhe0rS3BiHfCnWwQUrbCIQ==!6JCnFpxsOsrIgTgfxu4rdOgDFrD2kxe0zT+XZ0A6Lsjk5YGhFZKxP+RfKckxc4a/",
+            "authoringKey": "65NO/knEuorIyqEOZJHThA==!ZxAT7+5i02GPphwzj2uwhZwffSuboaypWdzSNmgBsLmPao3gr0K7YFhDAL+gek8L",
+            "subscriptionKey": "F5xL8saqkU3aSiu4pqtMdA==!3aJMYnMcmItkVKK4PeVSJuVvo+1duTd44pB462/iWTJx/gHbutjpyJ5Qey1IfmU7",
             "region": "westus",
-            "id": "157"
+            "id": "58"
         }
     ],
     "padlock": "UIum/o0zGANDt4LmoZ2Utw==!uNAG8qxG842ntaSFo4S1THlajV3FicsiseYgldgGRljoKbMHpcwyxln62qLut9ho",
