@@ -36,7 +36,7 @@
             "name": "production",
             "appId": "cd5a65a2-071d-411b-bdd1-f1d6d11b9551",
             "appPassword": "tIdXAbrvgVcJH6VZRQpgUQ==!Yjr/TO7eS+kpNgjO3OnuK3NU+m+8t+JA6RISkfmHTU4=",
-            "endpoint": "https://beerecommendbot.azurewebsites.net/api/messages"
+            "endpoint": "https://beerrecommendbot.azurewebsites.net/api/messages"
         },
         {
             "type": "blob",
