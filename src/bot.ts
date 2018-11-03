@@ -74,7 +74,7 @@ export class BasicBot {
     this.luisRecognizer = new LuisRecognizer({
       applicationId: luisConfig.appId,
       // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
-      endpointKey: luisConfig.authoringKey,
+      endpointKey: luisConfig.subscriptionKey,
       endpoint: luisConfig.getEndpoint()
     });
 

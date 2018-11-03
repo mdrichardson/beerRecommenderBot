@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css">
   <title>beerBot</title>
 </head>
@@ -50,17 +51,32 @@
         <div id="webchat"></div>
       </div>
   </main>
-  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
   <script>
-    const styleOptions = {
-      bubbleFromUserBackground: "#e07912",
-      sendBoxHeight: 60,
-      bubbleFromUserTextColor: '#fbf5f3',
+    var userId = '';
+    var possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 30; i++) {
+        userId += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
     }
-    window.WebChat.renderWebChat({
-      directLine: window.WebChat.createDirectLine({ secret: 'Qob9mQBEvWs.cwA.ebk.oXD6CEUPfG53G8WAifgqNeJ-T3prmQdPW0U-ENxNZBk' }),
-      styleOptions
-    }, document.getElementById('webchat'));
+    console.log(userId);
+    var user = { id: userId, name: 'user' };
+    var bot = { id: 'beerRecommender' };
+    var botConnection = new BotChat.DirectLine({
+        secret: 'Qob9mQBEvWs.cwA.ebk.oXD6CEUPfG53G8WAifgqNeJ-T3prmQdPW0U-ENxNZBk',
+        webSocket: true
+    });
+    BotChat.App({
+        botConnection: botConnection,
+        user: user,
+        bot: bot,
+    }, document.getElementById("webchat"));
+    var pageData = { name: 'test' };
+    botConnection
+        .postActivity({ type: 'event', value: pageData, from: { id: userId, name: 'user' }, name: 'pageContextData' })
+        .subscribe(id => {
+            console.log("Success sending data.");
+            console.log(pageData);
+        });
   </script>
 </body>
 </html>

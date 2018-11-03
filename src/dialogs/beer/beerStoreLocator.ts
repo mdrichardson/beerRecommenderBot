@@ -14,7 +14,7 @@ export class BeerStoreLocator {
     try {
       response = await axios({
         method: 'get',
-        url: `https://api.cognitive.microsoft.com/bing/v7.0/entities/?q=craft%20beer%20store%&mkt=en-US&count=1`,
+        url: `https://api.cognitive.microsoft.com/bing/v7.0/entities/?q=beer%20store%&mkt=en-US&count=1`,
         headers: {
           'Ocp-Apim-Subscription-Key': process.env.cogntiveApiKey
         },

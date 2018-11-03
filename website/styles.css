@@ -3,7 +3,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 body {
@@ -87,4 +87,88 @@ main {
 
 #chat-container > div > div {
   height: 60vh;
+}
+
+.wc-chatview-panel {
+  position: relative !important;
+}
+
+.wc-message-groups,
+.wc-suggested-actions,
+.wc-console,
+.wc-upload-input,
+.wc-textbox,
+.wc-send,
+.wc-mic {
+  position: static !important;
+}
+
+.wc-header {
+  display: none;
+}
+
+.wc-message-group-content {
+  margin-top: 0 !important;
+}
+
+.wc-app {
+  background-color: #fbf5f3;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+}
+
+.wc-chatview-panel,
+.wc-message-pane {
+  display: flex;
+  flex-flow: column-reverse nowrap;
+}
+
+.wc-header {
+  display: none;
+  height: 0;
+}
+
+.wc-message-pane {
+  order: 3;
+  overflow: scroll;
+}
+
+.wc-console {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1 0 auto;
+}
+
+.wc-textbox {
+  flex: 1 0 auto;
+}
+
+.wc-send {
+  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.wc-mic,
+.wc-mic * {
+  display: none;
+  width: 0px;
+}
+
+.wc-message-wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.wc-message-from-me {
+  align-self: flex-end;
+}
+
+.wc-message-from-bot {
+  align-self: flex-start;
+}
+
+.wc-message-from > span {
+  font-size: 0.75rem;
 }

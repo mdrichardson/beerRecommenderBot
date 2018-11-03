@@ -6,7 +6,7 @@ import * as restify from 'restify';
 import { config } from 'dotenv';
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { BotFrameworkAdapter, BotStateSet, MemoryStorage, ConversationState, UserState, TurnContext } from 'botbuilder';
+import { BotFrameworkAdapter, ConversationState, UserState } from 'botbuilder';
 
 // Import required bot configuration.
 import { BotConfiguration, IEndpointService } from 'botframework-config';
@@ -72,22 +72,23 @@ let conversationState: ConversationState, userState: UserState;
 // For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
-const memoryStorage = new MemoryStorage();
-conversationState = new ConversationState(memoryStorage);
-userState = new UserState(memoryStorage);
+// const memoryStorage = new MemoryStorage();
+// conversationState = new ConversationState(memoryStorage);
+// userState = new UserState(memoryStorage);
 
 // CAUTION: You must ensure your product environment has the NODE_ENV set
 //          to use the Azure Blob storage or Azure Cosmos DB providers.
 // Add botbuilder-azure when using any Azure services.
-// import { BlobStorage } from 'botbuilder-azure';
-// // Get service configuration
-// const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
-// const blobStorage = new BlobStorage({
-//     containerName: (blobStorageConfig.container || DEFAULT_BOT_CONTAINER),
-//     storageAccountOrConnectionString: blobStorageConfig.connectionString,
-// });
-// conversationState = new ConversationState(blobStorage);
-// userState = new UserState(blobStorage);
+import { BlobStorage } from 'botbuilder-azure';
+// Get service configuration
+const STORAGE_CONFIGURATION_ID = 'blob';
+const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
+const blobStorage = new BlobStorage({
+    containerName: (blobStorageConfig['container']),
+    storageAccountOrConnectionString: blobStorageConfig['connectionString'],
+});
+conversationState = new ConversationState(blobStorage);
+userState = new UserState(blobStorage);
 // Create the main dialog.
 let bot;
 try {
