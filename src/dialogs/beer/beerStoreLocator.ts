@@ -16,7 +16,7 @@ export class BeerStoreLocator {
         method: 'get',
         url: `https://api.cognitive.microsoft.com/bing/v7.0/entities/?q=beer%20store%&mkt=en-US&count=1`,
         headers: {
-          'Ocp-Apim-Subscription-Key': process.env.cogntiveApiKey
+          'Ocp-Apim-Subscription-Key': process.env.cognitiveApiKey
         },
         data: JSON.stringify(data)
       })
@@ -41,8 +41,9 @@ export class BeerStoreLocator {
     address = address.replace(' ', '%20')
     let response;
     try {
-      response = await axios.get(`http://dev.virtualearth.net/REST/v1/Locations/1%20${address}?o=json&key=${process.env.virtualEarthKey}`);
+      response = await axios.get(`http://dev.virtualearth.net/REST/v1/Locations/%20${address}?o=json&key=${process.env.virtualEarthKey}`);
       const coordinates = await response.data.resourceSets[0].resources[0].point.coordinates;
+      console.log(await response.data.resourceSets)
       return await coordinates
     }
     // There can be issues with some addresses. If we return [null, null] the API used in BeerStoreLocator seems to try to find the user's location by thier IP address
