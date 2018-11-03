@@ -10,22 +10,22 @@
             "subscriptionId": "3f3dba70-9012-4217-a0b1-fca52cf47b05",
             "resourceGroup": "beerBot",
             "serviceName": "beerRecommenderBot",
-            "appId": "48d3cd33-4fc7-4ea6-a023-8e21e94467e9"
+            "appId": "cd5a65a2-071d-411b-bdd1-f1d6d11b9551"
         },
         {
             "type": "endpoint",
             "id": "1",
             "name": "development",
-            "appId": "48d3cd33-4fc7-4ea6-a023-8e21e94467e9",
-            "appPassword": "LQsqGNEMoYRvN8z8Z9hHHA==!VY+v4jhnulzZ6PTGcOgpiCSWhrh/PcUbh+TRiMR233k=",
+            "appId": "cd5a65a2-071d-411b-bdd1-f1d6d11b9551",
+            "appPassword": "1FKe0EccQSkkH/DuehhG7g==!YI7RmKmY3I2eX99u5peqZKZeAKVWGSD1H8YNAeJU22c=",
             "endpoint": "http://localhost:3978/api/messages"
         },
         {
             "type": "luis",
             "name": "beerRecommenderBot-LUIS",
-            "appId": "ca48f875-3792-4dfa-8c12-40dd6840dbbe",
-            "authoringKey": "Cj5DiuunPod1AtM7pjwwqQ==!2sma5a2A5hpH700PCH5LNA3qRfCE66dJ4gOyTAVgXPUYUgIlpBVFZ62CYtzw4vL9",
-            "subscriptionKey": "kCyIkRMBOk2LTfh3f3yDEA==!4V0unwx7bT6htdYfZeSM1do7+vlIQQNcsM4xvfFHBMc5TDLEB6WrSkK0YVLtPYv9",
+            "appId": "78daf447-eace-458a-a8e5-f4db0c266a4f",
+            "authoringKey": "2GDY63S67Uj/UGmZBLpyKg==!ZDWS4iEheReh64pKGJM5Yvko+TexfvgRVgJ0x74g2wgQB0i4EJhgU7V+bDbSOm9/",
+            "subscriptionKey": "yFOET6pz3gew38EdnFff/g==!qQqoQPg4WOROw/SMmxtJp+v/xDGhFPZUfNcbVLTt0qq43uvEl5J3RGfihPrcjtW+",
             "version": "0.1",
             "region": "westus",
             "id": "34"
@@ -34,9 +34,9 @@
             "type": "endpoint",
             "id": "2",
             "name": "production",
-            "appId": "48d3cd33-4fc7-4ea6-a023-8e21e94467e9",
-            "appPassword": "CFdd303FyF9jXV/pD7DrFA==!LrA0lJnOBip2D0Hg08MXqOe2XrXDuMsLOVNP7tOrTEE=",
-            "endpoint": "https://beerecommender2u53.azurewebsites.net/api/messages"
+            "appId": "cd5a65a2-071d-411b-bdd1-f1d6d11b9551",
+            "appPassword": "9SI6GZYbNDbDK6ZCWEokuA==!UKw67dDlUCxwVHHnhp943WIAQGG8k+E8PJS5fWZBvm8=",
+            "endpoint": "https://beerecommenderi256.azurewebsites.net/api/messages"
         },
         {
             "type": "appInsights",
@@ -45,23 +45,23 @@
             "resourceGroup": "beerBot",
             "name": "beerRecommenderBoto4xovx",
             "serviceName": "beerRecommenderBoto4xovx",
-            "instrumentationKey": "lQAEjXgwr59H8IMGu7DsiQ==!l1p9dfAUuB59ZFUyAzvHIho/PQW1QZHvIxjeiA70A9aORxDH3f7/gEM3lgJxYQ3O",
-            "applicationId": "8ebb3224-c137-4a96-af4e-869aae9da775",
+            "instrumentationKey": "vHe0lGe+8rgAT2poMRJIeA==!kJ4ANaWNyBiBfjBwIjsD1laiab/CAIPZ97ThFnTsKPbbP9JSZ/0Warg9VzbjPyQ3",
+            "applicationId": "7971d447-25a0-418e-9cfd-10ba6427aea0",
             "apiKeys": {},
             "id": "4"
         },
         {
             "type": "blob",
             "id": "5",
-            "name": "beerecommqnjw",
-            "serviceName": "beerecommqnjw",
+            "name": "beerecommd445",
+            "serviceName": "beerecommd445",
             "tenantId": "022d9780-86ed-46e5-9a44-de0dcf5c6410",
             "subscriptionId": "3f3dba70-9012-4217-a0b1-fca52cf47b05",
             "resourceGroup": "beerBot",
-            "connectionString": "n7yUPuAk8zkj9OSQhin01A==!SemXABZoadYnTBxY3lxDuLhuhwoCqBQ0dOkFyqeTxywZcP9qtMtpJZ+G3p3nLehoNspAhvgcvZJI4MoH4i7awPp2El/rr1Z+R5HrMGstxMdZtC1Gl7G4+1Vi+CqEzvHtCHIj6qNMET1rDCtYtkQm8N+LvWuBj1kJV9MNOQnPxMxQUgG6cn+L6wyzjF77MpCDU/t/0TafAyO9cHg1sYv4mupDOFjKVMBCt77uTrsEokEFAA9wiATAHG4j4nAqRnSE",
+            "connectionString": "87JBxrXczomb7wVTrE7uMg==!N+MHr61vVjwj5DssMKE7o7RUh/eZ2ur7oTvMjjJzDGqZYFhTt0NhNpWU54QpPy9kggBdOxoBg5vw3KLmO3kS2g4lBDgTEhZmzP4m/YcELVQJbgJUtdskWxboRuM63NqIsx/eVw4chQnGTIPu9Hn7i4001wbxC8llJ3bh/fp6fsHM5gJu6e+4P9rXZHo/pFjhFIEH2rla8fGmRpqbC5r6V5KJWXmd7IBq3m99X1k5Swb1Io4cD+rV/jxh/0LSAMs6",
             "container": "botstatestore"
         }
     ],
-    "padlock": "OZR6yoZyMrVTDPYPIGCPVQ==!M2cfkLVfoAhLAWL1rudoiKcSiNs+GzG1bzakikrOYFItWP3agPzsRSZ+zeKJzMwT",
+    "padlock": "ywhBaRzfSVH6dgPaMEmTIQ==!trVwBEBfiW7vydEDnTVH4On+Mjx/zLD3v/xUGLNYXhIrbZMy1QvPXtlgNIdoEcsh",
     "version": "2.0"
 }
