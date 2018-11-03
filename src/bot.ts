@@ -182,6 +182,16 @@ export class BasicBot {
           if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
             // Welcome user.
             await context.sendActivity(WELCOME_MESSAGE);
+            // Reset user profile so if they refresh, it starts over
+            let userProfile = {
+              name: 'friend',
+              beerDrinker: undefined,
+              beerStyleFavorite: undefined,
+              beerStyleToRecommend: undefined,
+              beerSelected: undefined,
+              location: undefined,
+            };
+            await this.userProfileAccessor.set(context, userProfile);
           }
         }
       }
