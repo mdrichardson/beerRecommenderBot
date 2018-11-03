@@ -1,4 +1,4 @@
-# beerRecommenderBot
+# beerRecommender
 Recommend beers to try based on user preferences.
 
 This bot has been created using [Microsoft Bot Framework][1].
@@ -17,7 +17,7 @@ Things I'd like to improve:
 ## To run this bot
 - In a terminal,
   ```bash
-  cd beerRecommenderBot
+  cd beerRecommender
   ```
 - Install modules
   ```bash
@@ -43,8 +43,8 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 
 ### Connect to the bot using Bot Framework Emulator v4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `beerRecommenderBot` folder
-- Select `beerRecommenderBot.bot` file
+- File -> Open Bot Configuration and navigate to `beerRecommender` folder
+- Select `beerRecommender.bot` file
 
 ## Deploy this bot to Azure
 See [DEPLOYMENT.md][3] to learn more about deploying this bot to Azure and using the CLI tools to build the LUIS models this bot depends on.
@@ -71,9 +71,9 @@ See [DEPLOYMENT.md][3] to learn more about deploying this bot to Azure and using
 
 ### Configuring the bot
 
-The generator created a `.env` file with the two necessary keys `botFilePath` and `botFileSecret`.  The `botFilePath` key is set to `beerRecommenderBot.bot`.  All of the services and their respective configuration settings are stored in the .bot file.
+The generator created a `.env` file with the two necessary keys `botFilePath` and `botFileSecret`.  The `botFilePath` key is set to `beerRecommender.bot`.  All of the services and their respective configuration settings are stored in the .bot file.
   - For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
-  - It is recommended that you encrypt your bot file before you commit it to your souce control system and/or before you deploy your bot to Azure or similar hosting service.  There are two ways to encrypt your `beerRecommenderBot.bot` file.  You can use [MSBot CLI][15] to encrypt your bot file or you can use [Bot Framework Emulator **V4**][16] to encrypt your bot file.  Both options will product a `botFileSecret` for you.  You will need to remember this in order to decrypt your .bot file.
+  - It is recommended that you encrypt your bot file before you commit it to your souce control system and/or before you deploy your bot to Azure or similar hosting service.  There are two ways to encrypt your `beerRecommender.bot` file.  You can use [MSBot CLI][15] to encrypt your bot file or you can use [Bot Framework Emulator **V4**][16] to encrypt your bot file.  Both options will product a `botFileSecret` for you.  You will need to remember this in order to decrypt your .bot file.
 
 ### Running the bot
 

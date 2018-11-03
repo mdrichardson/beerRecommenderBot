@@ -10,28 +10,23 @@
     {
       "type": "luis",
       "id": "34",
-      "name": "beerRecommenderBot-LUIS"
+      "name": "beerBot"
     },
     {
       "type": "endpoint",
       "id": "2",
       "name": "production",
-      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+      "url": "https://beerrecommender.azurewebsites.net/api/messages"
     },
     {
       "type": "abs",
       "id": "3",
-      "name": "beerRecommenderBot-abs"
-    },
-    {
-      "type": "appInsights",
-      "id": "4",
-      "name": "beerRecommenderBot-insights"
+      "name": "beerRecommender"
     },
     {
       "type": "blob",
-      "id": "5",
-      "name": "beerRecommenderBot-blob",
+      "id": "2",
+      "name": "beerRecommender",
       "container": "botstatestore"
     }
   ]

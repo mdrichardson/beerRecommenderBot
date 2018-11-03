@@ -1,5 +1,5 @@
 {
-    "name": "beerRecommenderBot",
+    "name": "beerRecommender",
     "version": "1.0.0",
     "description": "Recommend beers to try based on user preferences",
     "author": "Microsoft Bot Builder Yeoman Generator v4.0.10",

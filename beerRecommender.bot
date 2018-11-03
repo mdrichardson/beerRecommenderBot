@@ -1,0 +1,52 @@
+{
+    "name": "beerRecommender",
+    "description": "",
+    "services": [
+        {
+            "type": "abs",
+            "tenantId": "022d9780-86ed-46e5-9a44-de0dcf5c6410",
+            "subscriptionId": "3f3dba70-9012-4217-a0b1-fca52cf47b05",
+            "resourceGroup": "beerBot",
+            "serviceName": "beerRecommender",
+            "name": "beerRecommender",
+            "id": "1",
+            "appId": "927c4244-9f7e-420e-a68b-9b015269cc13"
+        },
+        {
+            "type": "blob",
+            "connectionString": "ltvYvKCdW3egaSWxQhWF8g==!INY6YIvbuwU+alzCYOKSvkowNP8FI8fuHoaUmX+TgffapZtH1VWPn/Mxg5NhisVkcxTjMgBZLSEM3YnK7GCsM39Jttdt+OfZd3H/0lNV4BAxDaEx5eeizWqqZD0F8t7+aOp+ScvTD4g+Z7C8GyZhaE0gQVSMIAaR4LmWvd/xeO8c/67ueVxCTOuAnetYQcnHxrb6dtn4yu3nGYD5rWUTXA==",
+            "tenantId": "022d9780-86ed-46e5-9a44-de0dcf5c6410",
+            "subscriptionId": "3f3dba70-9012-4217-a0b1-fca52cf47b05",
+            "resourceGroup": "beerBot",
+            "serviceName": "beerrecommender",
+            "id": "2"
+        },
+        {
+            "type": "endpoint",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages",
+            "name": "development",
+            "id": "3"
+        },
+        {
+            "type": "endpoint",
+            "appId": "927c4244-9f7e-420e-a68b-9b015269cc13",
+            "appPassword": "SlF9M5ZqcCZSqhNqi6Ot1g==!PhJv77GikAZVUbBhp6ww/UEsBB4pkKMdW+YPNAdxNqQ=",
+            "endpoint": "https://beerrecommender.azurewebsites.net/api/messages",
+            "name": "production",
+            "id": "4"
+        },
+        {
+            "type": "luis",
+            "name": "beerBot",
+            "appId": "171fae8b-0661-478e-99c8-f14a74670ed5",
+            "version": "v0.1",
+            "authoringKey": "Mhe0rS3BiHfCnWwQUrbCIQ==!6JCnFpxsOsrIgTgfxu4rdOgDFrD2kxe0zT+XZ0A6Lsjk5YGhFZKxP+RfKckxc4a/",
+            "region": "westus",
+            "id": "157"
+        }
+    ],
+    "padlock": "UIum/o0zGANDt4LmoZ2Utw==!uNAG8qxG842ntaSFo4S1THlajV3FicsiseYgldgGRljoKbMHpcwyxln62qLut9ho",
+    "version": "2.0"
+}
