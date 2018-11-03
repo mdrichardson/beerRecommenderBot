@@ -17,15 +17,15 @@
             "id": "1",
             "name": "development",
             "appId": "cd5a65a2-071d-411b-bdd1-f1d6d11b9551",
-            "appPassword": "1FKe0EccQSkkH/DuehhG7g==!YI7RmKmY3I2eX99u5peqZKZeAKVWGSD1H8YNAeJU22c=",
+            "appPassword": "+PoBWaYqn6ZsN4GhTGU1oA==!Le3F5r8cZcIyyzVLxgugruz1ZQskAMdPM0uh7Ev0Y/0=",
             "endpoint": "http://localhost:3978/api/messages"
         },
         {
             "type": "luis",
             "name": "beerRecommenderBot-LUIS",
             "appId": "78daf447-eace-458a-a8e5-f4db0c266a4f",
-            "authoringKey": "2GDY63S67Uj/UGmZBLpyKg==!ZDWS4iEheReh64pKGJM5Yvko+TexfvgRVgJ0x74g2wgQB0i4EJhgU7V+bDbSOm9/",
-            "subscriptionKey": "yFOET6pz3gew38EdnFff/g==!qQqoQPg4WOROw/SMmxtJp+v/xDGhFPZUfNcbVLTt0qq43uvEl5J3RGfihPrcjtW+",
+            "authoringKey": "i1EpGhe9rp8WRukK8wQnxA==!klsJfV6km9nodbvv0akvp0mSMC47idCT3QlgfD9YjxvWxY1ZkqjFmclYRQ2shzUk",
+            "subscriptionKey": "TqmNkSlx8xPUnLVP4ZReCQ==!pvtCDxT6azMimX7Y9zvyX9tlnAbgnONMBeRIL6EXK5NHRbB5GJFvx2xPE7FMlZ7c",
             "version": "0.1",
             "region": "westus",
             "id": "34"
@@ -35,31 +35,19 @@
             "id": "2",
             "name": "production",
             "appId": "cd5a65a2-071d-411b-bdd1-f1d6d11b9551",
-            "appPassword": "9SI6GZYbNDbDK6ZCWEokuA==!UKw67dDlUCxwVHHnhp943WIAQGG8k+E8PJS5fWZBvm8=",
-            "endpoint": "https://beerecommenderi256.azurewebsites.net/api/messages"
-        },
-        {
-            "type": "appInsights",
-            "tenantId": "022d9780-86ed-46e5-9a44-de0dcf5c6410",
-            "subscriptionId": "3f3dba70-9012-4217-a0b1-fca52cf47b05",
-            "resourceGroup": "beerBot",
-            "name": "beerRecommenderBoto4xovx",
-            "serviceName": "beerRecommenderBoto4xovx",
-            "instrumentationKey": "vHe0lGe+8rgAT2poMRJIeA==!kJ4ANaWNyBiBfjBwIjsD1laiab/CAIPZ97ThFnTsKPbbP9JSZ/0Warg9VzbjPyQ3",
-            "applicationId": "7971d447-25a0-418e-9cfd-10ba6427aea0",
-            "apiKeys": {},
-            "id": "4"
+            "appPassword": "tIdXAbrvgVcJH6VZRQpgUQ==!Yjr/TO7eS+kpNgjO3OnuK3NU+m+8t+JA6RISkfmHTU4=",
+            "endpoint": "https://beerecommendbot.azurewebsites.net/api/messages"
         },
         {
             "type": "blob",
-            "id": "5",
-            "name": "beerecommd445",
-            "serviceName": "beerecommd445",
+            "name": "beerRecommendBot",
+            "serviceName": "beerrecommendbotb38c",
             "tenantId": "022d9780-86ed-46e5-9a44-de0dcf5c6410",
             "subscriptionId": "3f3dba70-9012-4217-a0b1-fca52cf47b05",
             "resourceGroup": "beerBot",
-            "connectionString": "87JBxrXczomb7wVTrE7uMg==!N+MHr61vVjwj5DssMKE7o7RUh/eZ2ur7oTvMjjJzDGqZYFhTt0NhNpWU54QpPy9kggBdOxoBg5vw3KLmO3kS2g4lBDgTEhZmzP4m/YcELVQJbgJUtdskWxboRuM63NqIsx/eVw4chQnGTIPu9Hn7i4001wbxC8llJ3bh/fp6fsHM5gJu6e+4P9rXZHo/pFjhFIEH2rla8fGmRpqbC5r6V5KJWXmd7IBq3m99X1k5Swb1Io4cD+rV/jxh/0LSAMs6",
-            "container": "botstatestore"
+            "connectionString": "43h7jCG5a9q87uZoFI/q2A==!GBVuXKjqrRYyao+U87pjt0dcvvoGToz33k3X70yrNzOLlGDDRilvA4j3t4AMEWUY2tFW4DBSG1if1uO7mKNyuqm/jFlmvM6soqbjUUnBUOThFu2WrB4Iem3x5mDRhvSS8hCFAD/Pkfa+cJAnPFro+WRIeYEEbdWRQez9ifyqXubgUgl4D4qCg8mYze9dzQEx4xEVCaE6YNtXyMEIQvqzbeIS3dzrCt1VlQvhGDgu7B8+emget1NCMnsJ07WaYe+tLX8MDMmExs4Pe2ZqCb788w==",
+            "container": "beerbot",
+            "id": "252"
         }
     ],
     "padlock": "ywhBaRzfSVH6dgPaMEmTIQ==!trVwBEBfiW7vydEDnTVH4On+Mjx/zLD3v/xUGLNYXhIrbZMy1QvPXtlgNIdoEcsh",
