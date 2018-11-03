@@ -5,20 +5,15 @@ export class BeerStoreLocator {
 
   async getBeerStoreLocation(address: string) {
     const latLong = await this.getLatLong(address);
-    const data = {
-      latitude: latLong[0],
-      longitute: latLong[1],
-      radius: 5000
-    }
     let response;
     try {
       response = await axios({
         method: 'get',
-        url: `https://api.cognitive.microsoft.com/bing/v7.0/entities/?q=beer%20store%&mkt=en-US&count=1`,
+        url: `https://api.cognitive.microsoft.com/bing/v7.0/entities/?q=beer%20store&mkt=en-us`,
         headers: {
-          'Ocp-Apim-Subscription-Key': process.env.cognitiveApiKey
-        },
-        data: JSON.stringify(data)
+          'Ocp-Apim-Subscription-Key': process.env.cognitiveApiKey,
+          'X-Search-Location': `lat:${latLong[0]};long:${latLong[1]};re:5000`
+        }
       })
       // Return the data as a place Hero card
       const place = await response.data.places.value[0];
