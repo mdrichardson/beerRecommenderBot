@@ -82,7 +82,6 @@ main {
 
 #chat-container {
   width: 40vw;
-  min-width: 300px;
 }
 
 #chat-container > div > div {
@@ -171,4 +170,26 @@ main {
 
 .wc-message-from > span {
   font-size: 0.75rem;
+}
+
+a,
+a:visited {
+  color: #e07912;
+}
+
+@media (max-width: 1000px) {
+  main {
+    padding: 1em;
+  }
+
+  #bullets, #chat-container {
+    margin: 1em;
+  }
+
+  #chat-container {
+    width: 90vw !important;
+  }
+  #chat-container > div > div {
+    height: 30vh;
+  }
 }
