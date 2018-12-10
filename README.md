@@ -7,6 +7,7 @@ My additions to the BasicBot from the SDK:
 - Uses custom [LUIS][2] choice prompt class that first looks for LUIS intents and if not found, prevents a list of valid options
 - Uses Bing Maps API to provide location of beer stores near user
 - Uses rich cards
+- Built in under 3 Days
 
 Things I'd like to improve:
 - Add more dialogue, especially for the greeting
