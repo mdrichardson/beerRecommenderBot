@@ -15,7 +15,7 @@
         "axios": "^0.18.0",
         "botbuilder": "^4.0.6",
         "botbuilder-ai": "^4.0.6",
-        "botbuilder-azure": "^4.1.3",
+        "botbuilder-azure": "^4.5.0",
         "botbuilder-core": "^4.0.6",
         "botbuilder-dialogs": "^4.0.6",
         "botframework-config": "^4.0.6",
